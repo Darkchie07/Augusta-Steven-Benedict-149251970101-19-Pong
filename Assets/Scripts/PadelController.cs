@@ -4,32 +4,59 @@ using UnityEngine;
 
 public class PadelController : MonoBehaviour
 {
+    public BallController bola;
+    public LeftPadController padelKiri;
+    public RightPadController padelKanan;
     public int speed;
-    public KeyCode upKey;
-    public KeyCode downKey;
     private Rigidbody2D rig;
-
+    public GameObject rightPad;
+    public GameObject leftPad;
+    Vector3 rightScale;
+    Vector3 leftScale;
+    Vector3 resetScale;
+    private float leftTimer;
+    private float rightTimer;
+    
     private void Start() {
-        rig = GetComponent<Rigidbody2D>();
+        resetScale = leftPad.transform.localScale;
     }
 
     private void Update()
     {
-        moveObject(GetInput());
+        leftScale = leftPad.transform.localScale;
+        rightScale = rightPad.transform.localScale;
     }
 
-    private Vector2 GetInput(){
-        if(Input.GetKey(upKey)){
-            return Vector2.up * speed;
-        }else if(Input.GetKey(downKey)){
-            return Vector2.down * speed;
+    public void resetPad(){
+        padelKiri.speed = 4;
+        padelKanan.speed = 4;
+        leftPad.transform.localScale = resetScale;
+        rightPad.transform.localScale = resetScale;
+    }
+
+    public void ActivatePULong(){
+        if(bola.isLeft && bola.nabrak > 0){
+            if(leftScale.y < 3){
+                leftScale.y *= 2;
+                leftPad.transform.localScale = leftScale;
+            }
+        }else if(!bola.isLeft && bola.nabrak > 0){
+            if(rightScale.y < 3){
+                rightScale.y *= 2;
+                rightPad.transform.localScale = rightScale;
+            }
         }
-
-        return Vector2.zero;
     }
 
-    private void moveObject(Vector2 movement){
-        Debug.Log("Kecepatan Pedal : " + movement);
-        rig.velocity = movement;
+    public void ActivatePUSpeed(){
+        if(bola.isLeft && bola.nabrak > 0){
+            if(padelKiri.speed <= 15){
+            padelKiri.speed *= 2;
+            }
+        }else if(!bola.isLeft && bola.nabrak > 0){
+            if(padelKanan.speed <= 15){
+            padelKanan.speed *= 2;
+            }
+        }
     }
 }

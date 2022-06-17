@@ -11,10 +11,12 @@ public class ScoreManager : MonoBehaviour
     public int maxScore;
 
     public BallController ball;
+    public PadelController paddle;
 
     public void AddRightScore(int increment){
         rightScore += increment;
         ball.ResetBall();
+        paddle.resetPad();
         if(rightScore >= maxScore){
             GameOver();
         }
@@ -23,12 +25,17 @@ public class ScoreManager : MonoBehaviour
     public void AddLeftScore(int increment){
         leftScore += increment;
         ball.ResetBall();
+        paddle.resetPad();
         if(leftScore >= maxScore){
             GameOver();
         }
     }
 
     public void GameOver(){
+        SceneManager.LoadScene("Main Menu");
+    }
+
+    public void BackMM(){
         SceneManager.LoadScene("Main Menu");
     }
 }

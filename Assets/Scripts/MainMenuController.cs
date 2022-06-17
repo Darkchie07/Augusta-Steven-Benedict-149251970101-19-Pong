@@ -12,4 +12,8 @@ public class MainMenuController : MonoBehaviour
     public void OpenAuthor(){
         Debug.Log("Created By Augusta Steven Benedict - 149251970101-19");
     }
+
+    public void Credit(){
+        SceneManager.LoadScene("Credit");
+    }
 }
